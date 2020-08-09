@@ -1,0 +1,1499 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 32
+
+{"serverKey":"xxxxxxxxxxxxxxxx"}GET /eidc/getoutbound?username=admin&password=admin&seq=1 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+POST /eidc/setTime?username=admin&password=admin&seq=2 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 210
+
+{"time":"2019-11-01T18:50:51-05:00","dstObservance":"observe on","dstStart":{"month":3,"weekInMonth":2,"dayOfWeek":7,"hour":2,"minute":0},"dstEnd":{"month":11,"weekInMonth":1,"dayOfWeek":7,"hour":2,"minute":0}}POST /eidc/setwebuser?username=admin&password=admin&seq=3 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 40
+
+{"Password":"xxxxxxxxxx","User":"admin"}GET /eidc/enableevents?username=admin&password=admin&seq=4 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+POST /eidc/getPointStatus?username=admin&password=admin&seq=5 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 53
+
+{"pointIds":[7,8,9,10,11,12,13,14,15,16,17,20,32,37]}POST /eidc/getPointStatus?username=admin&password=admin&seq=6 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 17
+
+{"pointIds":[20]}POST /eidc/getPointStatus?username=admin&password=admin&seq=7 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 17
+
+{"pointIds":[20]}POST /eidc/getPointStatus?username=admin&password=admin&seq=8 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 17
+
+{"pointIds":[20]}GET /eidc/heartbeat?username=admin&password=admin&seq=9 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=10 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=11 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=12 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=13 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=14 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=15 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=16 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=17 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=18 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=19 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=20 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=21 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=22 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=23 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=24 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=25 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=26 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=27 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=28 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=29 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=30 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=31 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+POST /eidc/eventack?username=admin&password=admin&seq=32 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 18
+
+{"eventIds":[894]}POST /eidc/getPointStatus?username=admin&password=admin&seq=33 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 17
+
+{"pointIds":[20]}GET /eidc/heartbeat?username=admin&password=admin&seq=34 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+POST /eidc/eventack?username=admin&password=admin&seq=35 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 18
+
+{"eventIds":[895]}POST /eidc/getPointStatus?username=admin&password=admin&seq=36 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 17
+
+{"pointIds":[20]}GET /eidc/heartbeat?username=admin&password=admin&seq=37 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=38 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=39 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=40 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=41 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=42 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=43 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=44 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=45 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=46 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=47 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=48 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=49 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=50 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=51 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=52 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=53 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=54 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=55 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=56 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=57 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=58 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=59 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=60 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=61 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=62 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=63 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=64 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=65 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=66 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=67 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=68 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=69 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=70 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=71 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=72 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=73 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=74 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=75 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=76 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=77 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=78 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=79 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=80 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=81 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=82 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=83 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=84 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=85 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=86 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=87 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=88 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=89 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=90 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=91 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=92 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=93 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=94 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=95 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=96 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=97 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=98 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=99 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=100 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=101 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=102 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=103 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=104 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=105 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+POST /eidc/eventack?username=admin&password=admin&seq=106 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 18
+
+{"eventIds":[896]}POST /eidc/getPointStatus?username=admin&password=admin&seq=107 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 17
+
+{"pointIds":[20]}POST /eidc/eventack?username=admin&password=admin&seq=108 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 18
+
+{"eventIds":[897]}POST /eidc/getPointStatus?username=admin&password=admin&seq=109 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 17
+
+{"pointIds":[20]}GET /eidc/heartbeat?username=admin&password=admin&seq=110 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=111 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=112 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=113 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=114 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=115 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=116 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=117 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=118 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=119 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=120 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=121 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=122 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=123 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=124 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=125 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=126 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=127 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=128 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=129 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=130 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=131 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=132 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=133 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=134 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=135 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=136 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=137 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=138 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=139 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=140 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=141 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=142 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=143 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=144 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=145 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=146 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=147 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=148 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=149 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=150 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=151 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=152 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=153 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=154 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=155 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=156 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=157 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=158 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=159 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=160 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=161 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=162 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=163 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=164 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=165 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=166 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=167 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=168 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=169 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=170 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=171 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=172 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=173 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=174 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=175 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=176 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=177 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=178 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=179 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=180 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=181 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=182 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=183 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=184 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=185 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=186 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=187 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=188 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=189 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=190 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=191 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=192 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=193 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=194 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=195 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=196 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=197 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=198 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=199 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=200 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=201 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=202 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+POST /eidc/door/lockstatus?username=admin&password=admin&seq=203 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 35
+
+{"status":"unlocked","duration":-1}POST /eidc/eventack?username=admin&password=admin&seq=204 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 18
+
+{"eventIds":[898]}POST /eidc/getPointStatus?username=admin&password=admin&seq=205 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 17
+
+{"pointIds":[20]}POST /eidc/door/lockstatus?username=admin&password=admin&seq=206 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 35
+
+{"status":"Normal","duration":null}POST /eidc/eventack?username=admin&password=admin&seq=207 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 18
+
+{"eventIds":[899]}POST /eidc/getPointStatus?username=admin&password=admin&seq=208 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+Content-Type: application/json
+Content-Length: 17
+
+{"pointIds":[20]}GET /eidc/heartbeat?username=admin&password=admin&seq=209 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=210 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=211 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=212 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=213 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=214 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=215 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=216 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=217 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=218 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=219 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=220 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=221 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=222 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=223 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=224 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=225 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=226 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=227 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=228 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=229 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=230 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=231 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=232 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=233 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=234 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=235 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=236 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=237 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=238 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=239 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=240 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=241 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=242 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=243 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=244 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=245 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=246 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=247 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=248 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=249 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=250 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=251 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=252 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=253 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=254 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=255 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=256 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=257 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=258 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=259 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=260 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=261 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=262 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=263 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=264 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=265 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=266 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=267 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=268 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=269 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=270 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=271 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=272 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=273 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=274 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=275 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=276 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=277 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=278 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=279 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=280 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=281 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=282 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=283 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=284 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=285 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=286 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=287 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=288 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=289 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=290 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=291 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=292 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=293 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=294 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+
+GET /eidc/heartbeat?username=admin&password=admin&seq=295 HTTP/1.1
+Host: 192.168.6.40
+User-Agent: eIDCListener
+
+

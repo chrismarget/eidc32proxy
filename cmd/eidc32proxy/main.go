@@ -28,13 +28,26 @@ const (
 type displayType int
 
 type config struct {
-	display displayType
+	display       displayType
+	mimicCert     string
+	mimicCertEvil string
+	useCert       string
+	usePrivateKey string
 }
 
 func getConfig() *config {
 	dtype := flag.String("d", "", "display type: dumpfirst/log/tview (default tview)")
+	mimicCert := flag.String("m", "", "mimic the specified end-entity X.509 certificate")
+	mimicCertEvil := flag.String("me", "", "mimic the specified end-entity cert in an evil way")
+	useCert := flag.String("c", "", "use the PEM-encoded X.509 certificate at the specified path")
+	usePrivateKey := flag.String("k", "", "use the PEM-encoded privtate key at the specified path")
 	flag.Parse()
-	config := &config{}
+	config := &config{
+		mimicCert:     *mimicCert,
+		mimicCertEvil: *mimicCertEvil,
+		useCert:       *useCert,
+		usePrivateKey: *usePrivateKey,
+	}
 	switch *dtype {
 	case "tview":
 		config.display = displayTview
@@ -56,9 +69,63 @@ func main() {
 	var cert *x509.Certificate
 	var key *rsa.PrivateKey
 	var err error
-
-	// prepare TLS certificate and key we'll present to eIDC32 clients
-	cert, key, err = eidc32proxy.CertAndKey(eidc32proxy.InfiniasCertSetup())
+	if len(config.usePrivateKey) > 0 {
+		log.Printf("using private key at '%s'...", config.usePrivateKey)
+		pb, err := eidc32proxy.PEMDecodeFirstItem(config.usePrivateKey)
+		if err != nil {
+			log.Fatalf("failed to pem decode - %s", err)
+		}
+		k, err := x509.ParsePKCS8PrivateKey(pb.Bytes)
+		if err != nil {
+			log.Fatalf("failed to parse private key - %s", err)
+		}
+		var ok bool
+		if key, ok = k.(*rsa.PrivateKey); !ok {
+			log.Fatalf("key is not a rsa key")
+		}
+	}
+	if len(config.useCert) > 0 {
+		log.Printf("using certificate at '%s'...", config.useCert)
+		pb, err := eidc32proxy.PEMDecodeFirstItem(config.useCert)
+		if err != nil {
+			log.Fatalf("failed to pem decode - %s", err)
+		}
+		cert, err = x509.ParseCertificate(pb.Bytes)
+		if err != nil {
+			log.Fatalf("failed to parse certificate - %s", err)
+		}
+	}
+	if len(config.mimicCert) > 0 {
+		log.Printf("mimicking certificate at '%s'...", config.mimicCert)
+		_, mimickedEE, err := eidc32proxy.MimicCertFromFile(config.mimicCert)
+		if err != nil {
+			log.Fatalf("failed to mimic cert - %s", err)
+		}
+		cert = mimickedEE.Cert
+		var ok bool
+		key, ok = mimickedEE.KeyPair.PrivKey.(*rsa.PrivateKey)
+		if !ok {
+			log.Fatalf("this code currently only supports rsa private keys, mimic created %t",
+				mimickedEE.KeyPair.PrivKey)
+		}
+	} else if len(config.mimicCertEvil) > 0 {
+		log.Printf("mimicking (in an evil way) certificate at '%s'...", config.mimicCertEvil)
+		mimickedEE, err := eidc32proxy.MimicCertNoWayAnyoneWouldBelieveThisFromPEMFile(config.mimicCertEvil)
+		if err != nil {
+			log.Fatalf("failed to mimic cert - %s", err)
+		}
+		cert = mimickedEE.Cert
+		var ok bool
+		key, ok = mimickedEE.KeyPair.PrivKey.(*rsa.PrivateKey)
+		if !ok {
+			log.Fatalf("this code currently only supports rsa private keys, mimic created %t",
+				mimickedEE.KeyPair.PrivKey)
+		}
+	} else {
+		log.Println("generating new cert and key...")
+		// prepare TLS certificate and key we'll present to eIDC32 clients
+		cert, key, err = eidc32proxy.CertAndKey(eidc32proxy.InfiniasCertSetup())
+	}
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -1,11 +1,17 @@
 package eidc32proxy
 
 import (
+	"bytes"
 	"crypto"
+	"crypto/dsa"
+	"crypto/ecdsa"
+	"crypto/ed25519"
 	"crypto/rand"
 	"crypto/rsa"
+	"crypto/tls"
 	"crypto/x509"
 	"crypto/x509/pkix"
+	"encoding/asn1"
 	"encoding/pem"
 	"errors"
 	"fmt"
@@ -22,8 +28,8 @@ const (
 
 // CertSetup contains details required for creating a self-signed certificate
 type CertSetup struct {
-	certFile   string
-	keyFile    string
+	CertFile   string
+	KeyFile    string
 	passphrase string
 	bits       int
 	template   *x509.Certificate
@@ -73,8 +79,8 @@ func InfiniasCertSetup() *CertSetup {
 	}
 
 	return &CertSetup{
-		certFile:   "",
-		keyFile:    "",
+		CertFile:   "",
+		KeyFile:    "",
 		passphrase: "",
 		bits:       1024,
 		template: &x509.Certificate{
@@ -133,9 +139,9 @@ func getKeyFromFile(fname string, pass string) (*rsa.PrivateKey, error) {
 	return x509.ParsePKCS1PrivateKey(decryptedKeyBytes)
 }
 
-// getCertFromFile parses a PEM formatted certificate file, returns
+// GetCertFromFile parses a PEM formatted certificate file, returns
 // a pointer to the certificate found within.
-func getCertFromFile(fname string) (*x509.Certificate, error) {
+func GetCertFromFile(fname string) (*x509.Certificate, error) {
 	p, err := readPemFile(fname)
 	if err != nil {
 		return nil, err
@@ -149,7 +155,7 @@ func getCertFromFile(fname string) (*x509.Certificate, error) {
 }
 
 // getOrGenKey returns a pointer to an RSA private key. Whether it retrieves
-// a key or generates a key depends on whether keyFile is empty. The passphrase
+// a key or generates a key depends on whether KeyFile is empty. The passphrase
 // string must not be empty if retrieving an encrypted key. Int bits is ignored
 // when retrieving a key.
 func getOrGenKey(keyFile string, passphrase string, bits int) (*rsa.PrivateKey, error) {
@@ -159,14 +165,14 @@ func getOrGenKey(keyFile string, passphrase string, bits int) (*rsa.PrivateKey, 
 	return rsa.GenerateKey(rand.Reader, bits)
 }
 
-// getOrGenCert returns a pointer to an x509.Certificate. If certFile is not
+// getOrGenCert returns a pointer to an x509.Certificate. If CertFile is not
 // empty, it will try to return the certificate the specified file. In that
-// case the other parameters are ignored. If certFile is empty, then key and
+// case the other parameters are ignored. If CertFile is empty, then key and
 // template are required. They're used to generate a self-signed certificate.
 // todo: not directly tested
 func getOrGenCert(certFile string, key crypto.Signer, template *x509.Certificate) (*x509.Certificate, error) {
 	if certFile != "" {
-		return getCertFromFile(certFile)
+		return GetCertFromFile(certFile)
 	}
 
 	if template == nil {
@@ -186,25 +192,28 @@ func getOrGenCert(certFile string, key crypto.Signer, template *x509.Certificate
 // in the specified CertSetup. It can retrieve both, retrieve a key and generate
 // a certificate, or generate both a certificate and a key.
 func CertAndKey(in *CertSetup) (*x509.Certificate, *rsa.PrivateKey, error) {
-	if in.passphrase != "" && in.keyFile == "" {
+	if in.passphrase != "" && in.KeyFile == "" {
 		return nil, nil, fmt.Errorf("key file unspecified but passphrase specified")
 	}
 
-	if in.certFile != "" && in.keyFile == "" {
+	if in.CertFile != "" && in.KeyFile == "" {
 		return nil, nil, fmt.Errorf("key file unspecified but certfile specified")
 	}
 
-	key, err := getOrGenKey(in.keyFile, in.passphrase, in.bits)
+	key, err := getOrGenKey(in.KeyFile, in.passphrase, in.bits)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	cert, err := getOrGenCert(in.certFile, key, in.template)
+	cert, err := getOrGenCert(in.CertFile, key, in.template)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	certPubKey := cert.PublicKey.(*rsa.PublicKey)
+	certPubKey, ok := cert.PublicKey.(*rsa.PublicKey)
+	if !ok {
+		return nil, nil, fmt.Errorf("failed to type assert generated public key as rsa")
+	}
 	keyPubKey := key.PublicKey
 	if certPubKey.Size() != keyPubKey.Size() || certPubKey.E != keyPubKey.E {
 		return nil, nil, fmt.Errorf("certificate and key don't match")
@@ -214,4 +223,345 @@ func CertAndKey(in *CertSetup) (*x509.Certificate, *rsa.PrivateKey, error) {
 	}
 
 	return cert, key, nil
+}
+
+func pemToCert(rawPEM []byte) (*x509.Certificate, error) {
+	block, rest := pem.Decode(rawPEM)
+	if len(rest) > 0 {
+		return nil, fmt.Errorf("only a single pem block is supported - pem contains %d blocks", len(rest))
+	}
+
+	return x509.ParseCertificate(block.Bytes)
+}
+
+func MimicCertNoWayAnyoneWouldBelieveThisFromPEMFile(certFilePath string) (*CertificateHolder, error) {
+	cert, err := GetCertFromFile(certFilePath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get certificate from file - %w", err)
+	}
+
+	return MimicCertNoWayAnyoneWouldBelieveThis(cert)
+}
+
+func MimicCertNoWayAnyoneWouldBelieveThis(orig *x509.Certificate) (*CertificateHolder, error) {
+	_, ee, err := MimicCert(orig)
+	if err != nil {
+		return nil, err
+	}
+
+	eePEMBlock, _ := pem.Decode(ee.CertPEM)
+	if eePEMBlock == nil {
+		return nil, fmt.Errorf("failed to pem decode new end entity cert - %s", err)
+	}
+
+	i := bytes.Index(eePEMBlock.Bytes, ee.Cert.Signature)
+	if i < 0 {
+		return nil, fmt.Errorf("failed to find new end entity cert signature in der data")
+	}
+
+	finalDer := append(eePEMBlock.Bytes[:i], orig.Signature...)
+	finalDer = append(finalDer, eePEMBlock.Bytes[i+len(ee.Cert.Signature):]...)
+
+	finalPEM := bytes.NewBuffer(nil)
+	err = pem.Encode(finalPEM, &pem.Block{
+		Type:    "CERTIFICATE",
+		Headers: nil,
+		Bytes:   finalDer,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to pem encode butchered cert - %s", err)
+	}
+
+	tlsCert, err := tls.X509KeyPair(finalPEM.Bytes(), ee.KeyPair.PEM)
+	if err != nil {
+		return nil, fmt.Errorf("failed to regenerate tls cert - %w", err)
+	}
+
+	eeCert, err := x509.ParseCertificate(finalDer)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse butchered ee cert - %w", err)
+	}
+
+	return &CertificateHolder{
+		TLSCert: &tlsCert,
+		Cert:    eeCert,
+		CertPEM: finalPEM.Bytes(),
+		KeyPair: ee.KeyPair,
+	}, nil
+}
+
+// MimicCert attempts to mimic the PEM-encoded X.509 certificate found at the
+// specified file path.
+func MimicCertFromFile(certFilePath string) (parent *CertificateHolder, endEntity *CertificateHolder, err error) {
+	cert, err := GetCertFromFile(certFilePath)
+	if err != nil {
+		return nil, nil, fmt.Errorf("failed to get certificate from file - %w", err)
+	}
+
+	return MimicCert(cert)
+}
+
+// MimicCert attempts to mimic the provided X.509 certificate.
+func MimicCert(orig *x509.Certificate) (parent *CertificateHolder, endEntity *CertificateHolder, err error) {
+	eeKP, err := MimicKeyPairForPublicKey(orig.PublicKey)
+	if err != nil {
+		return nil, nil, fmt.Errorf("failed to mimic key pair for cert's public key - %w", err)
+	}
+
+	mimickedEE := certToTemplate(orig)
+	var finalParent *x509.Certificate
+	var signWith interface{}
+	if orig.Issuer.String() != orig.Subject.String() {
+		parent, err = mimicParentCert(orig)
+		if err != nil {
+			return nil, nil, fmt.Errorf("failed to mimic cert's parent - %w", err)
+		}
+		finalParent = parent.Cert
+		signWith = parent.KeyPair.PrivKey
+	} else {
+		finalParent = mimickedEE
+		signWith = eeKP.PrivKey
+	}
+
+	endEntity, err = newCertificate(mimickedEE, finalParent, eeKP, signWith)
+	if err != nil {
+		return nil, nil, fmt.Errorf("failed to generate end entity certificate - %w", err)
+	}
+
+	if parent == nil {
+		parent = endEntity
+	}
+
+	return
+}
+
+func mimicParentCert(child *x509.Certificate) (*CertificateHolder, error) {
+	kp, err := MimicKeyPairForPublicKey(child.PublicKey)
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate a new key pair - %w", err)
+	}
+
+	temp := certToTemplate(child)
+
+	temp.Subject = child.Issuer
+	newSN := *temp.SerialNumber
+	snRaw := newSN.Bytes()
+	lastByte := snRaw[len(snRaw)-1]
+	lastByte--
+	snRaw[len(snRaw)-1] = lastByte
+	temp.SerialNumber = &newSN
+	temp.NotBefore = child.NotBefore.Add(-(365 * (24 * time.Hour)))
+	temp.NotAfter = child.NotAfter.Add(365 * (24 * time.Hour))
+	temp.BasicConstraintsValid = true
+	temp.IsCA = true
+	temp.DNSNames = nil
+	temp.IPAddresses = nil
+	temp.KeyUsage = child.KeyUsage | x509.KeyUsageCertSign
+
+	// The following is a massive super-hack that works around
+	// 'x509.Certificate.ExtraExtensions' overriding key usages
+	// and other X.509 extension.
+	originalExtensions := temp.ExtraExtensions
+	temp.ExtraExtensions = nil
+	finalDER, err := x509.CreateCertificate(rand.Reader, temp, temp, kp.PubKey, kp.PrivKey)
+	if err != nil {
+		return nil, fmt.Errorf("failed to re-create certificate - %w", err)
+	}
+	final, err := x509.ParseCertificate(finalDER)
+	if err != nil {
+		return nil, fmt.Errorf("failed to re-parse certificate - %w", err)
+	}
+
+	final = certToTemplate(final)
+
+	var additionalExts []pkix.Extension
+	keyUsageOID := asn1.ObjectIdentifier{2, 5, 29, 15}
+	basicConstraintsValidOID := asn1.ObjectIdentifier{2, 5, 29, 19}
+	for _, ext := range originalExtensions {
+		switch ext.Id.String() {
+		case keyUsageOID.String():
+			continue
+		case basicConstraintsValidOID.String():
+			continue
+		}
+		additionalExts = append(additionalExts, ext)
+	}
+
+	final.ExtraExtensions = append(final.ExtraExtensions, additionalExts...)
+
+	return newCertificate(final, final, kp, kp.PrivKey)
+}
+
+// TODO: Garbage.
+func similarSerialNumber(orig *big.Int) (*big.Int, error) {
+	serialNumberLimit := new(big.Int).Lsh(big.NewInt(1), uint(orig.BitLen()))
+	sn, err := rand.Int(rand.Reader, serialNumberLimit)
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate serial number - %s", err.Error())
+	}
+
+	// If the first byte is greater than 127, then we have the wrong bits.
+	if sn.Bytes()[0] > 127 {
+		return similarSerialNumber(orig)
+	}
+
+	return sn, nil
+}
+
+func MimicKeyPairForPublicKey(origPublicKey interface{}) (*KeyPair, error) {
+	var privF interface{}
+	var pubF interface{}
+	var pemLabel string
+
+	switch asserted := origPublicKey.(type) {
+	case *dsa.PublicKey:
+		return nil, fmt.Errorf("dsa is not supported at this time (good)")
+	case *ecdsa.PublicKey:
+		priv, err := ecdsa.GenerateKey(asserted.Curve, rand.Reader)
+		if err != nil {
+			return nil, fmt.Errorf("failed to generate new ecdssa private key - %w", err)
+		}
+		privF = priv
+		pubF = &priv.PublicKey
+		pemLabel = "EC PRIVATE KEY"
+	case *ed25519.PublicKey:
+		pub, priv, err := ed25519.GenerateKey(rand.Reader)
+		if err != nil {
+			return nil, fmt.Errorf("failed to generate new ed25519 private key - %w", err)
+		}
+		privF = priv
+		pubF = pub
+		pemLabel = "ED25519 PRIVATE KEY"
+	case *rsa.PublicKey:
+		priv, err := rsa.GenerateKey(rand.Reader, asserted.N.BitLen())
+		if err != nil {
+			return nil, fmt.Errorf("failed to generate new rsa private key - %w", err)
+		}
+		privF = priv
+		pubF = &priv.PublicKey
+		pemLabel = "RSA PRIVATE KEY"
+	default:
+		return nil, fmt.Errorf("unknown public key type %T", origPublicKey)
+	}
+
+	keyDer, err := x509.MarshalPKCS8PrivateKey(privF)
+	if err != nil {
+		return nil, fmt.Errorf("failed to marshal private key to der - %w", err)
+	}
+
+	pemBuff := bytes.NewBuffer(nil)
+	err = pem.Encode(pemBuff, &pem.Block{
+		Type:    pemLabel,
+		Headers: nil,
+		Bytes:   keyDer,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to pem encode prviate key - %w", err)
+	}
+
+	return &KeyPair{
+		PEMLabel: pemLabel,
+		PEM:      pemBuff.Bytes(),
+		PubKey:   pubF,
+		PrivKey:  privF,
+	}, nil
+}
+
+type KeyPair struct {
+	PEMLabel string
+	PEM      []byte
+	PubKey   interface{}
+	PrivKey  interface{}
+}
+
+func certToTemplate(orig *x509.Certificate) *x509.Certificate {
+	return &x509.Certificate{
+		SerialNumber:                orig.SerialNumber,
+		SignatureAlgorithm:          orig.SignatureAlgorithm,
+		Subject:                     orig.Subject,
+		NotBefore:                   orig.NotBefore,
+		NotAfter:                    orig.NotAfter,
+		KeyUsage:                    orig.KeyUsage,
+		ExtraExtensions:             orig.Extensions,
+		ExtKeyUsage:                 orig.ExtKeyUsage,
+		UnknownExtKeyUsage:          orig.UnknownExtKeyUsage,
+		BasicConstraintsValid:       orig.BasicConstraintsValid,
+		IsCA:                        orig.IsCA,
+		MaxPathLen:                  orig.MaxPathLen,
+		MaxPathLenZero:              orig.MaxPathLenZero,
+		SubjectKeyId:                orig.SubjectKeyId,
+		AuthorityKeyId:              orig.AuthorityKeyId,
+		OCSPServer:                  orig.OCSPServer,
+		IssuingCertificateURL:       orig.IssuingCertificateURL,
+		DNSNames:                    orig.DNSNames,
+		EmailAddresses:              orig.EmailAddresses,
+		IPAddresses:                 orig.IPAddresses,
+		URIs:                        orig.URIs,
+		PermittedDNSDomainsCritical: orig.PermittedDNSDomainsCritical,
+		PermittedDNSDomains:         orig.PermittedDNSDomains,
+		ExcludedDNSDomains:          orig.ExcludedDNSDomains,
+		PermittedIPRanges:           orig.PermittedIPRanges,
+		ExcludedIPRanges:            orig.ExcludedIPRanges,
+		PermittedEmailAddresses:     orig.PermittedEmailAddresses,
+		ExcludedEmailAddresses:      orig.ExcludedEmailAddresses,
+		PermittedURIDomains:         orig.PermittedURIDomains,
+		ExcludedURIDomains:          orig.ExcludedURIDomains,
+		CRLDistributionPoints:       orig.CRLDistributionPoints,
+		PolicyIdentifiers:           orig.PolicyIdentifiers,
+	}
+}
+
+func newCertificate(eeTemplate *x509.Certificate, parent *x509.Certificate, kp *KeyPair, signWith interface{}) (*CertificateHolder, error) {
+	newCertDER, err := x509.CreateCertificate(rand.Reader, eeTemplate, parent, kp.PubKey, signWith)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create cert - %w", err)
+	}
+
+	newCertWithPopulatedFields, err := x509.ParseCertificate(newCertDER)
+	if err != nil {
+		return nil, fmt.Errorf("failed to re-parse new cert der - %w", err)
+	}
+
+	newCertPEM := bytes.NewBuffer(nil)
+	err = pem.Encode(newCertPEM, &pem.Block{
+		Type:    "CERTIFICATE",
+		Headers: nil,
+		Bytes:   newCertDER,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to pem encode new cert - %w", err)
+	}
+
+	newTLSCert, err := tls.X509KeyPair(newCertPEM.Bytes(), kp.PEM)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse cert and private key as tls cert - %w", err)
+	}
+
+	return &CertificateHolder{
+		TLSCert: &newTLSCert,
+		Cert:    newCertWithPopulatedFields,
+		CertPEM: newCertPEM.Bytes(),
+		KeyPair: kp,
+	}, nil
+}
+
+type CertificateHolder struct {
+	TLSCert *tls.Certificate
+	Cert    *x509.Certificate
+	CertPEM []byte
+	KeyPair *KeyPair
+}
+
+func PEMDecodeFirstItem(filePath string) (*pem.Block, error) {
+	raw, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		return nil, err
+	}
+
+	block, _ := pem.Decode(raw)
+	if block == nil {
+		return nil, fmt.Errorf("no pem data present")
+	}
+
+	return block, nil
 }

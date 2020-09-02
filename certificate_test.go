@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"crypto/x509"
 	"encoding/pem"
+	"fmt"
 	"io/ioutil"
 	mathrand "math/rand"
 	"os"
@@ -42,7 +43,7 @@ SGgpKjVziunyjPDValZKl9mQXdlnDRO7lPo5lQ==
 		t.Fatal(err)
 	}
 
-	_, err = getCertFromFile(certfile.Name())
+	_, err = GetCertFromFile(certfile.Name())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -143,7 +144,13 @@ func TestCertAndKey(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer os.Remove(certFile.Name())
-	block := pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(key)}
+
+	keyRaw, err := x509.MarshalPKCS8PrivateKey(key)
+	if err != nil {
+		t.Fatalf("failed to marshal private key to bytes - %s", err)
+	}
+
+	block := pem.Block{Type: "RSA PRIVATE KEY", Bytes: keyRaw}
 	err = pem.Encode(clearKeyFile, &block)
 	if err != nil {
 		t.Fatalf("Failed to write data to %s: %s", clearKeyFile.Name(), err)
@@ -172,7 +179,7 @@ func TestCertAndKey(t *testing.T) {
 	}
 
 	csClearKey := &CertSetup{
-		keyFile:  clearKeyFile.Name(),
+		KeyFile:  clearKeyFile.Name(),
 		template: csGenAll.template,
 	}
 	cert, key, err = CertAndKey(csClearKey)
@@ -181,7 +188,7 @@ func TestCertAndKey(t *testing.T) {
 	}
 
 	csCryptKey := &CertSetup{
-		keyFile:    cryptKeyFile.Name(),
+		KeyFile:    cryptKeyFile.Name(),
 		passphrase: passphrase,
 		template:   csGenAll.template,
 	}
@@ -191,8 +198,8 @@ func TestCertAndKey(t *testing.T) {
 	}
 
 	csClearKeyCert := &CertSetup{
-		certFile: certFile.Name(),
-		keyFile:  clearKeyFile.Name(),
+		CertFile: certFile.Name(),
+		KeyFile:  clearKeyFile.Name(),
 	}
 	cert, key, err = CertAndKey(csClearKeyCert)
 	if err != nil {
@@ -200,8 +207,8 @@ func TestCertAndKey(t *testing.T) {
 	}
 
 	csCryptKeyCert := &CertSetup{
-		certFile:   certFile.Name(),
-		keyFile:    cryptKeyFile.Name(),
+		CertFile:   certFile.Name(),
+		KeyFile:    cryptKeyFile.Name(),
 		passphrase: passphrase,
 	}
 	cert, key, err = CertAndKey(csCryptKeyCert)
@@ -218,4 +225,86 @@ func randomString(n int) string {
 		b[i] = letter[mathrand.Intn(len(letter))]
 	}
 	return string(b)
+}
+
+func TestMimicCert(t *testing.T) {
+	pemRaw := `-----BEGIN CERTIFICATE-----
+MIICxDCCAi2gAwIBAgIJALWaTJ7mL74tMA0GCSqGSIb3DQEBBQUAMFkxCzAJBgNV
+BAYTAlVTMRAwDgYDVQQIDAdJbmRpYW5hMRAwDgYDVQQHDAdGaXNoZXJzMRAwDgYD
+VQQKDAczeExPR0lDMRQwEgYDVQQDDAszeGxvZ2ljLmNvbTAeFw0yMDAxMTUxNDEw
+NDRaFw0yNTAxMTMxNDEwNDRaMFwxCzAJBgNVBAYTAlVTMRAwDgYDVQQIDAdJbmRp
+YW5hMRAwDgYDVQQHDAdGaXNoZXJzMRAwDgYDVQQKDAczeExPR0lDMRcwFQYDVQQD
+DA4zeExPR0lDIFdlYkhBTDCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAoN8M
+SaG5AhsO9mq+LuKy0FyjuOs1SmFzms8c8ibYk3zF4h+l7f2I9hTZoYl4vfyBe/fg
+tX0RjfnPGyFmPP54HoE5iZZ5O2yildYx1oye1JZYjj9F+zGsj0JaX0Ea3+E2CjN0
+YE1b9x98XWAwfLsdt4HFL/jDPryYPa0VBB54DpECAwEAAaOBkDCBjTBzBgNVHSME
+bDBqoV2kWzBZMQswCQYDVQQGEwJVUzEQMA4GA1UECAwHSW5kaWFuYTEQMA4GA1UE
+BwwHRmlzaGVyczEQMA4GA1UECgwHM3hMT0dJQzEUMBIGA1UEAwwLM3hsb2dpYy5j
+b22CCQDnLuOIEKC2LDAJBgNVHRMEAjAAMAsGA1UdDwQEAwIE8DANBgkqhkiG9w0B
+AQUFAAOBgQBOfqOz/2GPUCmcYI64zMuzcG3/3yrCIKrF/70zprPNaJ1ovdP3uwDT
+nIJJKEbz1v3hj1Rz9mGgyUDCIYIYImFEkX+iniT2XfKYt0ATzkVdbwTkA2/RY4N0
+kBGvLXrx/LfeOpM3X4tEhSOMHGLXL4ywnzerDWdL0cUh+VnrkQOwaQ==
+-----END CERTIFICATE-----`
+
+	orig, err := pemToCert([]byte(pemRaw))
+	if err != nil {
+		t.Fatalf("failed to create cert - %s", err)
+	}
+
+	ee, err := MimicCertNoWayAnyoneWouldBelieveThis(orig)
+	if err != nil {
+		t.Fatalf("failed to mimic cert - %s", err)
+	}
+
+	fmt.Println("ee orig:")
+	fmt.Println(string(ee.CertPEM))
+	fmt.Println("ee key:")
+	fmt.Println(string(ee.KeyPair.PEM))
+
+	//v, ok := http.DefaultTransport.(*http.Transport)
+	//if !ok {
+	//	t.Fatalf("boom")
+	//}
+	//clientConfig := &tls.Config{
+	//	RootCAs: x509.NewCertPool(),
+	//}
+	//clientConfig.RootCAs.AddCert(parent.Cert)
+	//v.TLSClientConfig = clientConfig
+	//client := http.Client{Transport: v}
+	//fmt.Println(len(clientConfig.RootCAs.Subjects()))
+	//for _, v := range clientConfig.RootCAs.Subjects() {
+	//	log.Printf("0x%x", v)
+	//}
+	//
+	//addr := "127.0.0.1:8080"
+	//go func() {
+	//	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	//		fmt.Fprintf(w, "Hello, you've requested: %s\n", r.URL.Path)
+	//	})
+	//	server := http.Server{
+	//		Addr:      addr,
+	//		TLSConfig: &tls.Config{
+	//			Certificates: []tls.Certificate{
+	//				*ee.TLSCert,
+	//			},
+	//		},
+	//	}
+	//	err := server.ListenAndServeTLS("", "")
+	//	if err != nil {
+	//		t.Fatalf("listen failed - %s", err)
+	//	}
+	//}()
+	//
+	//resp, err := client.Get("https://"+ addr + "/")
+	//if err != nil {
+	//	t.Fatalf("failed to http get - %s", err)
+	//}
+	//defer resp.Body.Close()
+	//
+	//data, err := ioutil.ReadAll(resp.Body)
+	//if err != nil {
+	//	t.Fatalf("failed to read body - %s", err)
+	//}
+	//
+	//fmt.Println(string(data))
 }

@@ -42,7 +42,7 @@ type Server struct {
 // (once), and subscribing to session creation info with SubscribeSessions()
 // (many listeners okay), then starting it up with Serve().
 // If x509Cert or privkey are nil, the server will not do SSL.
-func NewServer(x509Cert *x509.Certificate, privkey *rsa.PrivateKey) (Server, error) {
+func NewServer(x509Cert *x509.Certificate, privkey *rsa.PrivateKey, optionalDERCertChain [][]byte) (Server, error) {
 	var tlsConfig *terribletls.Config
 
 	if x509Cert != nil && privkey != nil {
@@ -72,6 +72,10 @@ func NewServer(x509Cert *x509.Certificate, privkey *rsa.PrivateKey) (Server, err
 		tlsCert, err := terribletls.X509KeyPair(certBlock.Bytes(), privateKeyBlock.Bytes())
 		if err != nil {
 			return Server{}, err
+		}
+
+		if len(optionalDERCertChain) > 0 {
+			tlsCert.Certificate = append(tlsCert.Certificate, optionalDERCertChain...)
 		}
 
 		tlsConfig = &terribletls.Config{

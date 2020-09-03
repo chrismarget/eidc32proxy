@@ -69,38 +69,41 @@ func main() {
 	var cert *x509.Certificate
 	var key *rsa.PrivateKey
 	var err error
-	if len(config.usePrivateKey) > 0 {
-		log.Printf("using private key at '%s'...", config.usePrivateKey)
-		pb, err := eidc32proxy.PEMDecodeFirstItem(config.usePrivateKey)
-		if err != nil {
-			log.Fatalf("failed to pem decode - %s", err)
+	var optionalDERCertChain [][]byte
+	if len(config.usePrivateKey) >0 || len(config.useCert) > 0 {
+		if len(config.usePrivateKey) > 0 {
+			log.Printf("using private key at '%s'...", config.usePrivateKey)
+			pb, err := eidc32proxy.PEMDecodeFirstItem(config.usePrivateKey)
+			if err != nil {
+				log.Fatalf("failed to pem decode - %s", err)
+			}
+			k, err := x509.ParsePKCS8PrivateKey(pb.Bytes)
+			if err != nil {
+				log.Fatalf("failed to parse private key - %s", err)
+			}
+			var ok bool
+			if key, ok = k.(*rsa.PrivateKey); !ok {
+				log.Fatalf("key is not a rsa key")
+			}
 		}
-		k, err := x509.ParsePKCS8PrivateKey(pb.Bytes)
-		if err != nil {
-			log.Fatalf("failed to parse private key - %s", err)
+		if len(config.useCert) > 0 {
+			log.Printf("using certificate at '%s'...", config.useCert)
+			pb, err := eidc32proxy.PEMDecodeFirstItem(config.useCert)
+			if err != nil {
+				log.Fatalf("failed to pem decode - %s", err)
+			}
+			cert, err = x509.ParseCertificate(pb.Bytes)
+			if err != nil {
+				log.Fatalf("failed to parse certificate - %s", err)
+			}
 		}
-		var ok bool
-		if key, ok = k.(*rsa.PrivateKey); !ok {
-			log.Fatalf("key is not a rsa key")
-		}
-	}
-	if len(config.useCert) > 0 {
-		log.Printf("using certificate at '%s'...", config.useCert)
-		pb, err := eidc32proxy.PEMDecodeFirstItem(config.useCert)
-		if err != nil {
-			log.Fatalf("failed to pem decode - %s", err)
-		}
-		cert, err = x509.ParseCertificate(pb.Bytes)
-		if err != nil {
-			log.Fatalf("failed to parse certificate - %s", err)
-		}
-	}
-	if len(config.mimicCert) > 0 {
+	} else if len(config.mimicCert) > 0 {
 		log.Printf("mimicking certificate at '%s'...", config.mimicCert)
-		_, mimickedEE, err := eidc32proxy.MimicCertFromFile(config.mimicCert)
+		ca, mimickedEE, err := eidc32proxy.MimicCertFromFile(config.mimicCert)
 		if err != nil {
 			log.Fatalf("failed to mimic cert - %s", err)
 		}
+		optionalDERCertChain = [][]byte{ca.CertDER}
 		cert = mimickedEE.Cert
 		var ok bool
 		key, ok = mimickedEE.KeyPair.PrivKey.(*rsa.PrivateKey)
@@ -131,13 +134,13 @@ func main() {
 	}
 
 	// create a new SSL server using that cert and key
-	sslServer, err := eidc32proxy.NewServer(cert, key)
+	sslServer, err := eidc32proxy.NewServer(cert, key, optionalDERCertChain)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// create a new cleartext server
-	clearServer, err := eidc32proxy.NewServer(nil, nil)
+	clearServer, err := eidc32proxy.NewServer(nil, nil, nil)
 	if err != nil {
 		log.Fatal(err)
 	}

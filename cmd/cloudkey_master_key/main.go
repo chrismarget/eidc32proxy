@@ -158,7 +158,7 @@ func main() {
 	}
 
 	// create a new SSL server using that cert and key
-	server, err := eidc32proxy.NewServer(cert, key)
+	server, err := eidc32proxy.NewServer(cert, key, nil)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -286,6 +286,7 @@ func MimicCertNoWayAnyoneWouldBelieveThis(orig *x509.Certificate) (*CertificateH
 		TLSCert: &tlsCert,
 		Cert:    eeCert,
 		CertPEM: finalPEM.Bytes(),
+		CertDER: finalDer,
 		KeyPair: ee.KeyPair,
 	}, nil
 }
@@ -517,7 +518,7 @@ func newCertificate(eeTemplate *x509.Certificate, parent *x509.Certificate, kp *
 		return nil, fmt.Errorf("failed to create cert - %w", err)
 	}
 
-	newCertWithPopulatedFields, err := x509.ParseCertificate(newCertDER)
+	x509CertWithPopulatedFields, err := x509.ParseCertificate(newCertDER)
 	if err != nil {
 		return nil, fmt.Errorf("failed to re-parse new cert der - %w", err)
 	}
@@ -539,8 +540,9 @@ func newCertificate(eeTemplate *x509.Certificate, parent *x509.Certificate, kp *
 
 	return &CertificateHolder{
 		TLSCert: &newTLSCert,
-		Cert:    newCertWithPopulatedFields,
+		Cert:    x509CertWithPopulatedFields,
 		CertPEM: newCertPEM.Bytes(),
+		CertDER: newCertDER,
 		KeyPair: kp,
 	}, nil
 }
@@ -549,6 +551,7 @@ type CertificateHolder struct {
 	TLSCert *tls.Certificate
 	Cert    *x509.Certificate
 	CertPEM []byte
+	CertDER []byte
 	KeyPair *KeyPair
 }
 
